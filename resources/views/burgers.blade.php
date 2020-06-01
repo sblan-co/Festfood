@@ -36,11 +36,14 @@
                                         <button type="button" class="btn btn-primary" onclick="restar('{{$burger->id}}')">-</button>
                                     </div>
                                     <div class="col-4 d-flex justify-content-end">
+                                        <span id="{{$burger->id}}Price" style="visibility: hidden;">{{$burger->price}}</span><span id="{{$burger->id}}PriceAmount">{{$burger->price}}</span><span>€</span>
                                         <button type="submit" class="btn btn-primary mr-2" >Add</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>                
                                 </div> 
                                 <input type="hidden" value={{$burger->id}} name="burger_id">  
+                                <input type="hidden" value={{$burger->name}} name="burger_name">  
+                                <input type="hidden" value={{$burger->price}} name="burger_price">  
                             </form>      
                         </div>      
                     </div>
@@ -55,13 +58,21 @@
 <script>
     function sumar(bgId){
         var num = parseInt(document.getElementById(bgId+"Amount").value);
-        document.getElementById(bgId+"Amount").value = num + 1;
+        document.getElementById(bgId+"Amount").value = num + 1;     
+        price(bgId, num + 1);
     }
 
     function restar(bgId){
         var num = parseInt(document.getElementById(bgId+"Amount").value);
-        if (num > 1)
+        if (num > 1){
             document.getElementById(bgId+"Amount").value = num - 1;
+            price(bgId, num - 1);
+        }
+    }
+
+    function price (bgId, number){
+        var price = parseFloat(document.getElementById(bgId+"Price").innerHTML);
+        document.getElementById(bgId+"PriceAmount").innerHTML = number * price;
     }
 </script>
 @endsection

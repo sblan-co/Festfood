@@ -90,9 +90,17 @@
                     
                 {{-- Lista dinámica de los elementos del pedido --}}
                 
-                <a class="dropdown-item" href="#">1x CheeseBurger 2€</a>
-                <div class="dropdown-item" href="#">Total: <span class="float-right"> 2€</span></div>
-                <div class="d-flex btn btn-primary justify-content-center">Finish order</div>
+                {{-- AQUIIIIIII SESSION NO VALE, NECESITO VAAAR --}}
+                @if (Session::get('myOrder') != null)
+                    @foreach (Session::get('myOrder') as $element)   
+                        <a class="dropdown-item" href="#">{{$element->amount}} x {{$element->name}} <span>{{$element->price}} €</span></a>
+                    @endforeach
+                    <div class="dropdown-item" href="#">Total: <span class="float-right" id="totalPrice"> 2€</span></div>
+                    <div class="d-flex btn btn-primary justify-content-center">Finish order</div>
+                @else
+                    <a class="dropdown-item" href="#">No items added yet! Add something to your order.</a>
+                @endif
+          
 
                 </div>
             </div>
@@ -100,8 +108,19 @@
             
         @endauth
 
-    </div>    
+    </div> 
 
     {{-- @section('script') --}}
 </body>
 </html>
+
+<script>
+    function total($array){
+        var num = 0;
+        $array.forEach(element => {
+            num = num + element["price"];
+        });
+        console.log("TOTAL PRICE: " + num);
+        document.getElementById("totalPrice").innerHTML = num;
+    }
+</script>
