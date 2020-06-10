@@ -88,15 +88,27 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     
-                {{-- Lista dinámica de los elementos del pedido --}}
-                
-                {{-- AQUIIIIIII SESSION NO VALE, NECESITO VAAAR --}}
                 @if (Session::get('myOrder') != null)
-                    @foreach (Session::get('myOrder') as $element)   
-                        <a class="dropdown-item" href="#">{{$element->amount}} x {{$element->name}} <span>{{$element->price}} €</span></a>
-                    @endforeach
+                    <script>console.log("myOrder" + Session::get('myOrder'));</script>
+                    <a class="dropdown-item" href="#">
+                        <table class="table table-hover" id="orderTable">
+                            @foreach (Session::get('myOrder') as $element)
+                                    <tr>
+                                        <td>
+                                            {{$element->amount}}
+                                        </td>
+                                        <td>
+                                            {{$element->name}}
+                                        </td>
+                                        <td>
+                                            {{$element->price}}€
+                                        </td>
+                                    </tr>
+                            @endforeach
+                        </table>
+                    </a>
                     <div class="dropdown-item" href="#">Total: <span class="float-right" id="totalPrice"> 2€</span></div>
-                    <div class="d-flex btn btn-primary justify-content-center">Finish order</div>
+                    <div class="d-flex btn btn-primary justify-content-center"><a href="order" style="color: white; text-decoration:none;">Finish order</a></div>
                 @else
                     <a class="dropdown-item" href="#">No items added yet! Add something to your order.</a>
                 @endif
@@ -115,12 +127,20 @@
 </html>
 
 <script>
-    function total($array){
-        var num = 0;
-        $array.forEach(element => {
-            num = num + element["price"];
-        });
-        console.log("TOTAL PRICE: " + num);
-        document.getElementById("totalPrice").innerHTML = num;
-    }
+    window.onload = function() {
+        var total = 0;
+        var orderTbl = document.getElementById("orderTable");
+
+        if (orderTbl){
+            for (var i = 0; i < orderTbl.rows.length; i++) {
+                var td = orderTbl.rows[i].cells[2].innerHTML;
+                td = td.replace('€','');
+                
+                total = total + parseFloat(td);
+            }
+
+            document.getElementById("totalPrice").innerHTML = "" + total + "€";
+        }
+    };
 </script>
+

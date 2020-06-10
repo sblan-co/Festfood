@@ -2,10 +2,13 @@
 
 @section('content')
 
-    {{-- Añadir el nav --}}
-
     <div class="container my-auto">
 
+    @if(Session::get('info'))
+        <div class="alert alert-success">
+            {{ Session::get('info') }}
+        </div>
+    @endif
         <div class="row justify-content-center display-1 m-2">
             FestFood!
         </div>
@@ -21,40 +24,6 @@
             <a href="">Ice-Cream 🍦</a> <span class="badge badge-secondary">Coming soon!</span> --}}
         </div>
     </div>
-
-{{-- 
-    <div class="flex-center position-ref full-height">
-        @if (Route::has('login'))
-            <div class="top-right links">
-                @auth
-                    <a href="{{ url('/home') }}">Home</a>
-                @else
-                    <a href="{{ route('login') }}">Login</a>
-
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}">Register</a>
-                    @endif
-                @endauth
-            </div>
-        @endif
-
-        <div class="content">
-            <div class="title m-b-md">
-                FestFood!
-            </div>
-
-            <div class="links">
-                <a href="burgers">Burgers 🍔</a>
-                <a href="">Pizzas 🍕</a> <span class="badge badge-secondary">Coming soon!</span>
-                <a href="">Kebabs 🥙</a> <span class="badge badge-secondary">Coming soon!</span>
-                <a href="">Chicken 🍗</a> <span class="badge badge-secondary">Coming soon!</span>
-                <a href="">Sides 🍟</a> <span class="badge badge-secondary">Coming soon!</span>
-                <a href="">Drinks 🥤</a> <span class="badge badge-secondary">Coming soon!</span>
-                {{-- <a href="">Hot Drinks ☕</a> <span class="badge badge-secondary">Coming soon!</span>
-                <a href="">Ice-Cream 🍦</a> <span class="badge badge-secondary">Coming soon!</span>
-            </div>
-        </div>
-    </div> --}}
 
     @auth
 

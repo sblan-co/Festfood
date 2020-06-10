@@ -29,22 +29,17 @@ class BurgersController extends Controller
     public function createOrder(Request $request){
         // If the product is already listed in the order, we must add the amount
         
-        if (session()->get('myOrder') != null){        
-            
-            
-            // echo "<script>console.log('YA EXISTE UNA ORDEN');</script>";
-        
+        if (session()->get('myOrder') != null){                
             $currentOrder = session()->get('myOrder');
-            $productOnOrder = $this->searchProductId($currentOrder, $request->burger_id); // array_search("'product_id': $request->burger_id", session()->get('myOrder'));
-            
-            // echo "<script>console.log('DESPUES DE SEARCH');</script>";
-            // echo "<script>console.log('ELEMENTO Nº   '+$productOnOrder);</script>";
+            $productOnOrder = $this->searchProductId($currentOrder, $request->burger_id); 
 
-            if ($productOnOrder != -1){
-                // echo "<script>console.log('ILLO YA TIENES BORGUEZAS '+$productOnOrder);</script>";
-        
+            if ($productOnOrder != -1){        
                 $nProduct = session()->get('myOrder')[$productOnOrder]->amount;
                 session()->get('myOrder')[$productOnOrder]->amount = $nProduct + $request->burger_amount;
+
+                $priceProduct = session()->get('myOrder')[$productOnOrder]->price;
+                session()->get('myOrder')[$productOnOrder]->price = $priceProduct + $request->burger_price;
+
             }  
             else{
                 $this->addProduct($request->burger_id, $request->burger_name, $request->burger_amount, $request->burger_price);
@@ -65,23 +60,14 @@ class BurgersController extends Controller
         $product->price = $bgPrice*$bgAmount;
         $product->amount = $bgAmount;
         session()->push("myOrder", $product);
-        // echo "<script>console.log('CURRENT BURGER '+JSON.stringify($product));</script>";
     }
 
     private function searchProductId($array, $id){
         $i = 0;
         $found = false;
 
-        $tam = sizeof($array);
-
-        // echo "<script>console.log('tamaño del array'+$tam);</script>";
-
         do{
-            // $iddd = $array[$i]["product_id"];
-            // echo "<script>console.log('entro al while'+$i);</script>";
-            // echo "<script>console.log('busco a'+$iddd);</script>";
             if ($array[$i]["product_id"] == $id){
-                // echo "<script>console.log('LO ENCUENTRA');</script>";
                 $found = true;
             }
             $i++;
@@ -93,7 +79,6 @@ class BurgersController extends Controller
             $i = -1;
         }
 
-        // echo "<script>console.log('DENTRO'+$i);</script>";
         return $i;
     }
 }

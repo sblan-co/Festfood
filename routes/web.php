@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,3 +36,5 @@ Route::post('register-step2', 'Auth\RegisterStep2Controller@postForm')
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/burgers', 'BurgersController@index')->name('burgers');
 Route::post('/burgers', 'BurgersController@createOrder')->name('burgers.store');
+Route::get('/order', 'OrderController@index')->name('order');
+Route::post('/order', 'OrderController@storeOrder')->name('order.store');
