@@ -3,6 +3,11 @@
 @section('content')
         
 <div class="container">
+    @if(Session::get('orderError'))
+        <div class="alert alert-danger">
+            {{ Session::get('orderError') }}
+        </div>
+    @endif
     <div class="row">
         @foreach ($burgers as $burger)        
             <div class="col grid"> 

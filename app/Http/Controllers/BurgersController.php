@@ -28,25 +28,29 @@ class BurgersController extends Controller
 
     public function createOrder(Request $request){
         // If the product is already listed in the order, we must add the amount
-        
-        if (session()->get('myOrder') != null){                
-            $currentOrder = session()->get('myOrder');
-            $productOnOrder = $this->searchProductId($currentOrder, $request->burger_id); 
+        if(Auth::user()){            
+            if (session()->get('myOrder') != null){                
+                $currentOrder = session()->get('myOrder');
+                $productOnOrder = $this->searchProductId($currentOrder, $request->burger_id); 
 
-            if ($productOnOrder != -1){        
-                $nProduct = session()->get('myOrder')[$productOnOrder]->amount;
-                session()->get('myOrder')[$productOnOrder]->amount = $nProduct + $request->burger_amount;
+                if ($productOnOrder != -1){        
+                    $nProduct = session()->get('myOrder')[$productOnOrder]->amount;
+                    session()->get('myOrder')[$productOnOrder]->amount = $nProduct + $request->burger_amount;
 
-                $priceProduct = session()->get('myOrder')[$productOnOrder]->price;
-                session()->get('myOrder')[$productOnOrder]->price = $priceProduct + $request->burger_price;
+                    $priceProduct = session()->get('myOrder')[$productOnOrder]->price;
+                    session()->get('myOrder')[$productOnOrder]->price = $priceProduct + $request->burger_price;
 
-            }  
+                }  
+                else{
+                    $this->addProduct($request->burger_id, $request->burger_name, $request->burger_amount, $request->burger_price);
+                }
+            }
             else{
                 $this->addProduct($request->burger_id, $request->burger_name, $request->burger_amount, $request->burger_price);
             }
         }
-        else{
-            $this->addProduct($request->burger_id, $request->burger_name, $request->burger_amount, $request->burger_price);
+        else{            
+            session()->put("orderError", 'You must be a user to make an order. Log In or Register now! 😊 ');
         }
 
         return redirect()->route('burgers');

@@ -31,10 +31,10 @@ class OrderController extends Controller
     {
         // Almacenar ordene en DB
         // Retrieve latest id registered as ltId
-        $ltId = ;
+        // $ltId = ;
         
         session()->forget('myOrder');
-        session()->put("info", 'Orden realizada con éxito. Estará lista en 10 min.');
+        session()->put("info", 'Order succesfully placed. It will be ready in 10 min.');
         return view('welcome');
     }
 }
